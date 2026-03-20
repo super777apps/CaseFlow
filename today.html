@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Today's Hearings</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="lux-header">
+
+<div class="logo">
+Case<span class="gold">Flow</span>
+</div>
+
+<div style="display:flex; gap:10px;">
+
+<button class="lux-btn" onclick="location='dashboard.html'">
+Dashboard
+</button>
+
+<button class="lux-btn" onclick="refreshPage()">
+Refresh
+</button>
+
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+<div class="lux-main">
+
+<h2 class="section-title">
+Today's Court Board
+</h2>
+
+<div id="todayList" class="fare-list">
+
+<!-- DATA WILL LOAD HERE -->
+
+</div>
+
+</div>
+
+
+<!-- AUDIO (PRELOAD) -->
+<audio id="notifSound" src="assets/notification.mp3" preload="auto"></audio>
+
+
+<!-- SCRIPTS -->
+<script src="js/firebase.js"></script>
+<script src="js/today.js"></script>
+
+<script>
+
+// refresh button
+function refreshPage(){
+location.reload()
+}
+
+// unlock audio on first click (important for mobile)
+document.body.addEventListener("click", function(){
+
+let audio = document.getElementById("notifSound")
+if(audio){
+audio.play().then(()=>{
+audio.pause()
+audio.currentTime = 0
+}).catch(()=>{})
+}
+
+},{ once: true })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width">
+
+<title>Case Details</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<div class="lux-header">
+
+<div class="logo">
+Case<span class="gold">Flow</span>
+</div>
+
+<button class="lux-btn" onclick="location='dashboard.html'">
+Back
+</button>
+
+</div>
+
+<div class="lux-main">
+
+<h2 class="section-title">Add Hearing</h2>
+
+<input type="date" id="hearingDate">
+
+<input id="result" placeholder="Result">
+
+<input type="date" id="nextDate">
+
+<textarea id="notes" placeholder="Notes"></textarea>
+
+<button class="lux-btn full" onclick="addHearing()">
+Save Hearing
+</button>
+
+<hr>
+
+<h2 class="section-title">Hearing History</h2>
+
+<div id="hearingList" class="fare-list"></div>
+
+</div>
+
+<script src="js/firebase.js"></script>
+<script src="js/hearings.js"></script>
+
+</body>
+</html>

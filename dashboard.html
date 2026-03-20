@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<div class="lux-header">
+<div class="logo">Case<span class="gold">Flow</span></div>
+
+<div style="display:flex; gap:10px;">
+<button class="lux-btn" onclick="location='today.html'">Today</button>
+<button class="lux-btn danger" onclick="logout()">Logout</button>
+</div>
+</div>
+
+<div class="lux-main">
+
+<h2 class="section-title">Cases Dashboard</h2>
+
+<!-- 🔥 SMART FILTER BAR -->
+<div class="fare-card">
+
+<div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+<button class="lux-btn" onclick="setFilter('all')">All</button>
+<button class="lux-btn" onclick="setFilter('today')">Today</button>
+<button class="lux-btn" onclick="setFilter('tomorrow')">Tomorrow</button>
+<button class="lux-btn" onclick="setFilter('judge')">By Judge</button>
+</div>
+
+<input type="text" id="searchBox" placeholder="Search case, client, judge..." oninput="applySmartFilter()">
+
+<input type="date" id="dateFilter" onchange="applySmartFilter()">
+
+<input type="text" id="judgeFilter" placeholder="Enter Judge Name" oninput="applySmartFilter()">
+
+</div>
+
+<!-- ADD CASE -->
+<div class="fare-card">
+
+<input id="clientName" placeholder="Client Name">
+<input id="caseTitle" placeholder="Case Title">
+<input id="caseNumber" placeholder="Case Number">
+<input id="courtName" placeholder="Court Name">
+<input id="judgeName" placeholder="Judge Name">
+<input id="opponent" placeholder="Opponent">
+
+<button class="lux-btn full" onclick="addCase()">Save Case</button>
+
+</div>
+
+<!-- QUICK HEARING -->
+<div class="fare-card">
+
+<select id="caseSelect"></select>
+
+<input type="date" id="quickDate">
+<input type="text" id="quickResult" placeholder="Result">
+<input type="date" id="quickNextDate">
+<input type="text" id="quickNotes" placeholder="Notes">
+
+<button class="lux-btn full" onclick="quickAddHearing()">Save Hearing</button>
+
+</div>
+
+<!-- CASE LIST -->
+<div id="caseList" class="fare-list"></div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/cases.js"></script>
+
+</body>
+</html>
