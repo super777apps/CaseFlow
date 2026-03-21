@@ -15,7 +15,6 @@ let nearest=null;
 let min=999999;
 
 drivers.forEach(d=>{
-
 const u=d.data();
 
 if(!u.lat || !u.lng) return;
@@ -26,7 +25,6 @@ if(dist<min){
 min=dist;
 nearest=d.id;
 }
-
 });
 
 if(nearest){

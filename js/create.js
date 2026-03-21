@@ -18,7 +18,6 @@ let currentUser=null;
 const sendType=document.getElementById("sendType");
 const friendSelect=document.getElementById("friendSelect");
 const btn=document.getElementById("createFareBtn");
-const roleSelect=document.getElementById("roleSelect");
 
 /* AUTH */
 onAuthStateChanged(auth,user=>{
@@ -27,18 +26,7 @@ currentUser=user;
 loadFriends(user.uid);
 });
 
-/* ROLE CONTROL */
-roleSelect?.addEventListener("change",()=>{
-if(roleSelect.value==="passenger"){
-sendType.value="friend";
-sendType.disabled=true;
-friendSelect.style.display="block";
-}else{
-sendType.disabled=false;
-}
-});
-
-/* SEND TYPE */
+/* SHOW FRIEND */
 sendType.addEventListener("change",()=>{
 friendSelect.style.display = sendType.value==="friend" ? "block" : "none";
 });
@@ -49,7 +37,8 @@ function loadFriends(uid){
 const q=query(collection(db,"friends"), where("owner","==",uid));
 
 onSnapshot(q,snap=>{
-friendSelect.innerHTML='<option value="">Select Driver</option>';
+
+friendSelect.innerHTML='<option value="">Select Friend</option>';
 
 snap.forEach(docSnap=>{
 const f=docSnap.data();
@@ -58,6 +47,7 @@ opt.value=f.friendUID;
 opt.textContent=f.name || f.email;
 friendSelect.appendChild(opt);
 });
+
 });
 }
 
@@ -76,8 +66,6 @@ alert("Fill all fields");
 return;
 }
 
-const role = roleSelect?.value || "driver";
-
 const data={
 pickup,drop,time:datetime,price,
 
@@ -86,11 +74,6 @@ createdUid:currentUser.uid,
 
 originalDriverUID:currentUser.uid,
 currentDriverUID:currentUser.uid,
-
-passengerUID:currentUser.uid,
-role: role,
-
-chain:[],
 
 createdAt:serverTimestamp(),
 
@@ -108,7 +91,7 @@ const ref=await addDoc(collection(db,"fares"),data);
 
 await sendToFriend(ref.id,friendUID,currentUser.uid);
 
-alert("Sent successfully");
+alert("Sent to friend");
 location.href="dashboard.html";
 return;
 }
