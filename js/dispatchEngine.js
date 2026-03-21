@@ -1,23 +1,13 @@
 import { db } from "./firebase.js";
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import {
-doc,
-updateDoc,
-getDoc,
-serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+export async function sendToFriend(jobId, friendUID) {
 
-export async function sendToFriend(jobId,friendUID,senderUID){
+  await updateDoc(doc(db, "fares", jobId), {
+    status: "assigned",
+    assignedTo: friendUID,
+    currentDriverUID: friendUID,
+    dispatchType: "friend"
+  });
 
-const ref=doc(db,"fares",jobId);
-const snap=await getDoc(ref);
-
-await updateDoc(ref,{
-status:"assigned",
-dispatchType:"friend",
-assignedTo:friendUID,
-currentDriverUID:friendUID,
-lastDispatchBy: senderUID,
-dispatchStartedAt: serverTimestamp()
-});
 }
