@@ -261,7 +261,15 @@ showSuccess("Hearing Saved")
 // 📄 EXPORT PDF
 async function exportPDF(caseId){
 
-const { jsPDF } = window.jspdf
+try{
+
+const jsPDF = window.jspdf?.jsPDF || window.jsPDF
+
+if(!jsPDF){
+alert("PDF library not loaded")
+return
+}
+
 const doc = new jsPDF()
 
 let caseDoc = await db.collection("cases").doc(caseId).get()
@@ -269,7 +277,6 @@ let c = caseDoc.data()
 
 let hearingsSnap = await db.collection("hearings")
 .where("caseId","==",caseId)
-.orderBy("createdAt","desc")
 .get()
 
 let y = 10
@@ -304,6 +311,38 @@ y = 10
 
 })
 
-doc.save(`${c.caseTitle}.pdf`)
+
+// 🎯 CREATE FILE
+const fileName = "CaseFlow_" + (c.caseTitle || "case") + ".pdf"
+
+// 🔥 CONVERT TO BLOB
+const pdfBlob = doc.output("blob")
+
+
+// ✅ SHARE (MOBILE)
+if(navigator.share){
+
+const file = new File([pdfBlob], fileName, { type: "application/pdf" })
+
+navigator.share({
+title: "Case Report",
+text: "Case details PDF",
+files: [file]
+})
+.then(()=>showSuccess("Shared successfully"))
+.catch(()=>doc.save(fileName)) // fallback download
+
+}else{
+
+// 💻 FALLBACK (download)
+doc.save(fileName)
+showSuccess("PDF Downloaded")
+
+}
+
+}catch(err){
+alert("Error: " + err.message)
+console.log(err)
+}
 
 }
